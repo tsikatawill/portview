@@ -1,5 +1,8 @@
 import { useMemo } from "react";
-import { getPortDescription } from "../../../shared/port-descriptions";
+import {
+  getPortDescription,
+  getProcessCategory,
+} from "../../../shared/port-descriptions";
 import { PortEntry } from "../../../shared/types";
 
 export function useFilteredPorts(
@@ -19,7 +22,8 @@ export function useFilteredPorts(
           String(entry.port).includes(q) ||
           entry.processName.toLowerCase().includes(q) ||
           String(entry.pid).includes(q) ||
-          getPortDescription(entry.port, entry.processName).toLowerCase().includes(q),
+          getPortDescription(entry.port, entry.processName).toLowerCase().includes(q) ||
+          (getProcessCategory(entry.processName)?.label.toLowerCase().includes(q) ?? false),
       );
     }
 

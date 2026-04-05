@@ -1,6 +1,9 @@
 import { PinOff } from "lucide-react";
 import { useMemo } from "react";
-import { getPortDescription } from "../../../shared/port-descriptions";
+import {
+  getPortDescription,
+  getProcessCategory,
+} from "../../../shared/port-descriptions";
 import { useApp } from "../context/AppContext";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
@@ -43,6 +46,14 @@ export function PinnedPorts() {
                 const desc = getPortDescription(port, processName ?? "");
                 return desc ? (
                   <span className="text-muted-foreground text-xs">{desc}</span>
+                ) : null;
+              })()}
+              {(() => {
+                const cat = getProcessCategory(processName ?? "");
+                return cat ? (
+                  <Badge variant={cat.variant} className="text-xs">
+                    {cat.label}
+                  </Badge>
                 ) : null;
               })()}
             </>

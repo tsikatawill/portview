@@ -6,7 +6,10 @@ import {
   PinOff,
   Skull,
 } from "lucide-react";
-import { getPortDescription } from "../../../shared/port-descriptions";
+import {
+  getPortDescription,
+  getProcessCategory,
+} from "../../../shared/port-descriptions";
 import { PortEntry } from "../../../shared/types";
 import { useApp } from "../context/AppContext";
 import { useFilteredPorts } from "../hooks/useFilteredPorts";
@@ -85,7 +88,8 @@ export function PortTable({ onKillRequest }: PortTableProps) {
             </TableHead>
           ))}
           <TableHead>Description</TableHead>
-          <TableHead className="w-[100px]">Actions</TableHead>
+          <TableHead>Safety</TableHead>
+          <TableHead className="w-25">Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -113,8 +117,16 @@ export function PortTable({ onKillRequest }: PortTableProps) {
                   <Badge variant={stateMeta.variant}>{stateMeta.label}</Badge>
                 )}
               </TableCell>
-              <TableCell className="text-muted-foreground max-w-[180px] truncate text-sm">
+              <TableCell className="text-muted-foreground max-w-45 truncate text-sm">
                 {getPortDescription(entry.port, entry.processName)}
+              </TableCell>
+              <TableCell>
+                {(() => {
+                  const cat = getProcessCategory(entry.processName);
+                  return cat ? (
+                    <Badge variant={cat.variant}>{cat.label}</Badge>
+                  ) : null;
+                })()}
               </TableCell>
               <TableCell>
                 <div className="flex gap-1">

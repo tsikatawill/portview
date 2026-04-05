@@ -9,6 +9,7 @@ A desktop app for developers to see which processes are using local ports and ki
 - Live port scanning (macOS via `lsof`, Windows via `netstat`)
 - Kill and force-kill processes by port
 - Search and filter by port number, process name, PID, or state
+- Safety badges showing whether a process is safe to kill (System, Background, App, Dev)
 - Pinned ports for your most-used dev servers (3000, 5173, 8080, …)
 - Auto-refresh at a configurable interval
 - Menu bar / system tray for quick access without opening the full window

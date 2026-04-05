@@ -487,6 +487,7 @@
             <a href="#install">Installation</a>
             <a href="#usage">How to use Portview</a>
             <a href="#states">Port states</a>
+            <a href="#safety">Safety categories</a>
             <a href="#settings">Settings and theme</a>
             <a href="#troubleshooting">Troubleshooting</a>
           </nav>
@@ -509,6 +510,7 @@
                   <li>Scan active ports and bound processes</li>
                   <li>Pin common development ports like 3000 and 5173</li>
                   <li>Filter by state and search by port, process, or PID</li>
+                  <li>Safety badges indicating kill risk per process</li>
                   <li>Kill or force-kill problematic processes</li>
                 </ul>
               </div>
@@ -666,6 +668,60 @@ npm run dev</code></pre>
                 </div>
               </div>
             </div>
+          </section>
+
+          <section class="panel" id="safety">
+            <h2>Safety categories</h2>
+            <p>
+              Each process is tagged with a safety category so you know at a
+              glance whether it is safe to kill. The category appears as a
+              colored badge in the port table and on pinned ports.
+            </p>
+            <div class="state-row">
+              <div class="state">
+                <span class="badge red">System</span>
+                <div>
+                  <p>
+                    OS-level service. Killing these can cause instability or
+                    break core functionality. Examples: launchd,
+                    mDNSResponder, WindowServer.
+                  </p>
+                </div>
+              </div>
+              <div class="state">
+                <span class="badge yellow">Background</span>
+                <div>
+                  <p>
+                    Background daemon or database server. Kill with caution
+                    &mdash; other apps or services may depend on it.
+                    Examples: Docker, PostgreSQL, Redis, sshd.
+                  </p>
+                </div>
+              </div>
+              <div class="state">
+                <span class="badge blue">App</span>
+                <div>
+                  <p>
+                    User application. Safe to kill, though you may lose
+                    unsaved work. Examples: Chrome, Slack, Spotify, VS Code.
+                  </p>
+                </div>
+              </div>
+              <div class="state">
+                <span class="badge green">Dev</span>
+                <div>
+                  <p>
+                    Development server or runtime. Safe to kill and restart
+                    at any time. Examples: Node.js, Vite, Python, Deno.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <p>
+              Processes without a recognized name will not show a badge. You
+              can also search by category name (e.g. type &ldquo;system&rdquo;
+              or &ldquo;dev&rdquo;) to filter the port list.
+            </p>
           </section>
 
           <section class="panel" id="settings">
