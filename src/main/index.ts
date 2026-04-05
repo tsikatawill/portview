@@ -32,7 +32,7 @@ function createWindow(): ElectronBrowserWindow {
   const bounds = store.get("windowBounds");
 
   mainWindow = new BrowserWindow({
-    width: bounds?.width ?? 900,
+    width: bounds?.width ?? 1000,
     height: bounds?.height ?? 670,
     x: bounds?.x,
     y: bounds?.y,

@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { AlertTriangle } from "lucide-react";
+import { useMemo, useState } from "react";
+import { getProcessCategory } from "../../../shared/port-descriptions";
 import { PortEntry } from "../../../shared/types";
 import { useApp } from "../context/AppContext";
 import { Button } from "./ui/button";
@@ -40,6 +42,11 @@ export function KillDialog({ entry, open, onClose }: KillDialogProps) {
     setKilling(false);
   }
 
+  const isSystem = useMemo(
+    () => entry && getProcessCategory(entry.processName)?.label === "System",
+    [entry],
+  );
+
   if (!entry) return null;
 
   return (
@@ -52,6 +59,16 @@ export function KillDialog({ entry, open, onClose }: KillDialogProps) {
             port {entry.port}?
           </DialogDescription>
         </DialogHeader>
+
+        {isSystem && (
+          <div className="flex items-start gap-2 rounded-md border border-amber-500/50 bg-amber-500/10 p-3 text-sm text-amber-600 dark:text-amber-300">
+            <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+            <span>
+              This is a <strong>system process</strong>. Killing it may cause
+              instability or break core OS functionality. Proceed with caution.
+            </span>
+          </div>
+        )}
 
         {error && (
           <div className="bg-destructive/10 text-destructive rounded-md p-3 text-sm">
