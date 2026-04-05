@@ -1,7 +1,12 @@
-import electron, {
+import {
+  app,
+  BrowserWindow,
   type BrowserWindow as ElectronBrowserWindow,
   type Event as ElectronEvent,
   type HandlerDetails,
+  ipcMain,
+  nativeImage,
+  shell,
 } from "electron";
 import { join } from "path";
 import { IPC_CHANNELS } from "../shared/ipc";
@@ -10,8 +15,13 @@ import { forceKillProcess, killProcess } from "./kill";
 import { scanPorts } from "./scanner";
 import store from "./store";
 import { createTray, updateTrayEntries } from "./tray";
-
-const { app, BrowserWindow, ipcMain, nativeImage, shell } = electron;
+import {
+  checkForAppUpdates,
+  getAppInfo,
+  getUpdateStatus,
+  initializeUpdater,
+  installUpdateAndRestart,
+} from "./updater";
 
 const APP_NAME = "Portview";
 const APP_ICON_PATH = join(process.resourcesPath, "app-icon.png");
@@ -125,6 +135,14 @@ app.whenReady().then(async () => {
     confirmBeforeKill: store.get("confirmBeforeKill"),
     theme: store.get("theme"),
   }));
+  ipcMain.handle(IPC_CHANNELS.GET_APP_INFO, () => getAppInfo());
+  ipcMain.handle(IPC_CHANNELS.GET_UPDATE_STATUS, () => getUpdateStatus());
+  ipcMain.handle(IPC_CHANNELS.CHECK_FOR_UPDATES, () =>
+    checkForAppUpdates({ manual: true, showNoUpdateDialog: false }),
+  );
+  ipcMain.handle(IPC_CHANNELS.INSTALL_UPDATE_AND_RESTART, () => {
+    installUpdateAndRestart();
+  });
   ipcMain.handle(IPC_CHANNELS.SET_PINNED_PORTS, (_event, ports: number[]) => {
     store.set("pinnedPorts", ports);
   });
@@ -152,6 +170,7 @@ app.whenReady().then(async () => {
 
   // Create window
   createWindow();
+  initializeUpdater(getMainWindow);
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {

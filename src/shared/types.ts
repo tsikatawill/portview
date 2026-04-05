@@ -20,3 +20,20 @@ export interface ScanResult {
   entries: PortEntry[];
   error?: string;
 }
+
+export type UpdatePhase =
+  | "idle"
+  | "checking"
+  | "downloading"
+  | "downloaded"
+  | "not-available"
+  | "error"
+  | "unsupported";
+
+export interface UpdateStatus {
+  phase: UpdatePhase;
+  message: string;
+  version?: string;
+  progress?: number;
+  checkedAt?: string;
+}

@@ -6,7 +6,7 @@
   "type": "module",
   "main": "./out/main/index.js",
   "scripts": {
-    "dev": "electron-vite dev",
+    "dev": "unset ELECTRON_RUN_AS_NODE && electron-vite dev",
     "build": "electron-vite build",
     "preview": "electron-vite preview",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json",
@@ -48,6 +48,13 @@
   "build": {
     "appId": "com.tsikatawill.portview",
     "productName": "Portview",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "tsikatawill",
+        "repo": "portview"
+      }
+    ],
     "directories": {
       "output": "dist"
     },
@@ -55,14 +62,27 @@
       "out/**/*"
     ],
     "extraResources": [
-      { "from": "resources/tray-icon.png", "to": "tray-icon.png" },
-      { "from": "resources/app-icon.png", "to": "app-icon.png" }
+      {
+        "from": "resources/tray-icon.png",
+        "to": "tray-icon.png"
+      },
+      {
+        "from": "resources/app-icon.png",
+        "to": "app-icon.png"
+      }
     ],
     "mac": {
       "icon": "resources/app-icon.icns",
       "target": [
         {
           "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        },
+        {
+          "target": "zip",
           "arch": [
             "arm64",
             "x64"
@@ -90,6 +110,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "electron-store": "^11.0.2",
+    "electron-updater": "^6.8.3",
     "lucide-react": "^1.7.0",
     "radix-ui": "^1.4.3",
     "react": "^19.2.4",

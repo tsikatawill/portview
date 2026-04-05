@@ -1,4 +1,8 @@
-import electron, {
+import {
+  app,
+  Menu,
+  nativeImage,
+  Tray,
   type BrowserWindow,
   type Tray as ElectronTray,
 } from "electron";
@@ -8,8 +12,7 @@ import { PortEntry } from "../shared/types";
 import { killProcess } from "./kill";
 import { scanPorts } from "./scanner";
 import store from "./store";
-
-const { app, Menu, nativeImage, Tray } = electron;
+import { checkForAppUpdates } from "./updater";
 
 let tray: ElectronTray | null = null;
 let latestEntries: PortEntry[] = [];
@@ -98,6 +101,12 @@ function updateTrayMenu(getMainWindow: () => BrowserWindow | null) {
         if (result.success) {
           updateTrayEntries(result.entries, getMainWindow);
         }
+      },
+    },
+    {
+      label: "Check for Updates",
+      click: async () => {
+        await checkForAppUpdates({ manual: true, showNoUpdateDialog: true });
       },
     },
     { type: "separator" },

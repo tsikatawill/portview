@@ -1,8 +1,11 @@
-import electron from "electron";
+import { contextBridge, ipcRenderer } from "electron";
 import { IPC_CHANNELS } from "../shared/ipc";
-import type { AppTheme, KillResult, ScanResult } from "../shared/types";
-
-const { contextBridge, ipcRenderer } = electron;
+import type {
+  AppTheme,
+  KillResult,
+  ScanResult,
+  UpdateStatus,
+} from "../shared/types";
 
 export interface AppSettings {
   pinnedPorts: number[];
@@ -10,6 +13,12 @@ export interface AppSettings {
   refreshInterval: number;
   confirmBeforeKill: boolean;
   theme: AppTheme;
+}
+
+export interface AppInfo {
+  version: string;
+  isPackaged: boolean;
+  releasesUrl: string;
 }
 
 const api = {
@@ -21,6 +30,14 @@ const api = {
     ipcRenderer.invoke(IPC_CHANNELS.FORCE_KILL_PROCESS, pid),
   getSettings: (): Promise<AppSettings> =>
     ipcRenderer.invoke(IPC_CHANNELS.GET_SETTINGS),
+  getAppInfo: (): Promise<AppInfo> =>
+    ipcRenderer.invoke(IPC_CHANNELS.GET_APP_INFO),
+  getUpdateStatus: (): Promise<UpdateStatus> =>
+    ipcRenderer.invoke(IPC_CHANNELS.GET_UPDATE_STATUS),
+  checkForUpdates: (): Promise<UpdateStatus> =>
+    ipcRenderer.invoke(IPC_CHANNELS.CHECK_FOR_UPDATES),
+  installUpdateAndRestart: (): Promise<void> =>
+    ipcRenderer.invoke(IPC_CHANNELS.INSTALL_UPDATE_AND_RESTART),
   setPinnedPorts: (ports: number[]): Promise<void> =>
     ipcRenderer.invoke(IPC_CHANNELS.SET_PINNED_PORTS, ports),
   setAutoRefresh: (enabled: boolean): Promise<void> =>
@@ -31,6 +48,18 @@ const api = {
     ipcRenderer.invoke(IPC_CHANNELS.SET_CONFIRM_BEFORE_KILL, enabled),
   setTheme: (theme: AppTheme): Promise<void> =>
     ipcRenderer.invoke(IPC_CHANNELS.SET_THEME, theme),
+  onUpdateStatusChange: (listener: (status: UpdateStatus) => void) => {
+    const wrapped = (
+      _event: Electron.IpcRendererEvent,
+      status: UpdateStatus,
+    ) => {
+      listener(status);
+    };
+    ipcRenderer.on(IPC_CHANNELS.UPDATE_STATUS_CHANGED, wrapped);
+    return () => {
+      ipcRenderer.removeListener(IPC_CHANNELS.UPDATE_STATUS_CHANGED, wrapped);
+    };
+  },
 };
 
 contextBridge.exposeInMainWorld("api", api);

@@ -24,9 +24,9 @@ jobs:
       matrix:
         include:
           - os: macos-latest
-            artifact_glob: "dist/*.dmg"
+            artifact_glob: "dist/*.dmg dist/*.zip dist/latest-mac.yml dist/*.blockmap"
           - os: windows-latest
-            artifact_glob: "dist/*.exe"
+            artifact_glob: "dist/*.exe dist/latest.yml dist/*.blockmap"
 
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
@@ -43,6 +43,15 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Validate tag matches package version
+        shell: bash
+        run: |
+          VERSION="$(node -p "require('./package.json').version")"
+          if [[ "v${VERSION}" != "${{ github.ref_name }}" ]]; then
+            echo "Tag ${GITHUB_REF_NAME} does not match package.json version v${VERSION}"
+            exit 1
+          fi
 
       - name: Build and package
         run: npm run dist
