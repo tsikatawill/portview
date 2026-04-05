@@ -2,7 +2,7 @@
 
 A desktop app for developers to see which processes are using local ports and kill them — without touching the terminal.
 
-![Portview screenshot](resources/screenshot.png)
+![Portview screenshot](docs/screenshot.png)
 
 ## Features
 
