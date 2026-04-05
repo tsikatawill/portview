@@ -71,7 +71,7 @@ Portview can check GitHub Releases for updates from inside the app.
 - Auto-updates only work in packaged builds, not `npm run dev`
 - macOS auto-updates require a signed app
 - Release tags must match `package.json` version, for example `v1.0.2`
-- GitHub Releases must include the generated installer plus update metadata files such as `latest.yml` or `latest-mac.yml`
+- GitHub Releases must include the generated installer minus update metadata files such as `latest.yml` or `latest-mac.yml`
 
 ## Running tests
 

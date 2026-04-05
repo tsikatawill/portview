@@ -24,9 +24,9 @@ jobs:
       matrix:
         include:
           - os: macos-latest
-            artifact_glob: "dist/*.dmg dist/*.zip dist/latest-mac.yml dist/*.blockmap"
+            artifact_glob: "dist/*.dmg dist/*.zip"
           - os: windows-latest
-            artifact_glob: "dist/*.exe dist/latest.yml dist/*.blockmap"
+            artifact_glob: "dist/*.exe"
 
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
