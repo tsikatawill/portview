@@ -318,7 +318,12 @@ export function SettingsPage({ onBack }: SettingsPageProps) {
                     Current version {appInfo ? `v${appInfo.version}` : ""}
                   </div>
                   <p className="text-muted-foreground text-sm leading-5">
-                    {updateStatus.message}
+                    {updateStatus.phase === "not-available"
+                      ? "You're on the latest version"
+                      : updateStatus.phase === "downloading" ||
+                          updateStatus.phase === "downloaded"
+                        ? "Updates available"
+                        : updateStatus.message}
                   </p>
                   {typeof updateStatus.progress === "number" && (
                     <p className="text-muted-foreground text-xs">
@@ -349,7 +354,9 @@ export function SettingsPage({ onBack }: SettingsPageProps) {
                   <RotateCw
                     className={cn(
                       "h-4 w-4",
-                      isCheckingForUpdates && "animate-spin",
+                      (isCheckingForUpdates ||
+                        updateStatus.phase === "checking") &&
+                        "animate-spin",
                     )}
                   />
                   Check now
