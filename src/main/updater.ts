@@ -43,13 +43,9 @@ async function getAutoUpdater() {
     return autoUpdaterInstance;
   }
 
-  const loaded = await import("electron-updater");
-  const updaterModule =
-    "autoUpdater" in loaded
-      ? loaded
-      : (loaded.default as typeof import("electron-updater"));
+  const { autoUpdater } = await import("electron-updater");
 
-  autoUpdaterInstance = updaterModule.autoUpdater;
+  autoUpdaterInstance = autoUpdater;
   return autoUpdaterInstance;
 }
 
