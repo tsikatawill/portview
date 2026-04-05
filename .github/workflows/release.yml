@@ -18,6 +18,8 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
@@ -34,10 +36,3 @@ jobs:
         run: npm run dist
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload artifacts to release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: ${{ matrix.artifact_glob }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
