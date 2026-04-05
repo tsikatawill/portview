@@ -241,6 +241,7 @@ export const WELL_KNOWN_PORTS: Record<number, string> = {
   4200: "Angular Dev",
   4321: "Astro Dev",
   5000: "Dev Server",
+  5173: "Vite",
   5432: "PostgreSQL",
   5433: "PostgreSQL (Alt)",
   5672: "RabbitMQ",
