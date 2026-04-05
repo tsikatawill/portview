@@ -1,9 +1,9 @@
 import {
   app,
   BrowserWindow,
-  type BrowserWindow as ElectronBrowserWindow,
   dialog,
   shell,
+  type BrowserWindow as ElectronBrowserWindow,
 } from "electron";
 import type { AppUpdater, UpdateInfo } from "electron-updater";
 import { IPC_CHANNELS } from "../shared/ipc";
@@ -13,7 +13,7 @@ const RELEASES_URL = "https://github.com/tsikatawill/portview/releases";
 
 let currentStatus: UpdateStatus = {
   phase: "idle",
-  message: "Automatic updates are ready.",
+  message: "Automatic updates are ready",
 };
 
 let hasInitialized = false;
@@ -143,7 +143,7 @@ export function initializeUpdater(
   hasInitialized = true;
   setStatus({
     phase: "idle",
-    message: "Automatic updates are ready.",
+    message: "Automatic updates are ready",
   });
 
   void (async () => {
