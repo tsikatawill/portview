@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portview Documentation</title>
+    <meta
+      name="description"
+      content="Portview documentation for installation, usage, settings, and troubleshooting."
+    />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #09111f;
+        --bg-elevated: rgba(13, 22, 39, 0.82);
+        --panel: rgba(17, 28, 49, 0.86);
+        --panel-strong: rgba(23, 38, 65, 0.96);
+        --text: #edf4ff;
+        --muted: #9fb0cf;
+        --line: rgba(145, 177, 232, 0.18);
+        --cyan: #4fd1ff;
+        --green: #4ee89f;
+        --amber: #f8c15c;
+        --red: #ff7d7d;
+        --blue: #7ab7ff;
+        --shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+        --radius-xl: 28px;
+        --radius-lg: 20px;
+        --radius-md: 14px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family:
+          "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+        background:
+          radial-gradient(
+            circle at top,
+            rgba(79, 209, 255, 0.16),
+            transparent 30%
+          ),
+          radial-gradient(
+            circle at 80% 20%,
+            rgba(78, 232, 159, 0.14),
+            transparent 22%
+          ),
+          linear-gradient(180deg, #09111f 0%, #0b1221 42%, #0a101d 100%);
+        color: var(--text);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .shell {
+        width: min(1160px, calc(100vw - 32px));
+        margin: 0 auto;
+      }
+
+      .hero {
+        padding: 32px 0 20px;
+      }
+
+      .hero-card {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-xl);
+        background:
+          linear-gradient(135deg, rgba(79, 209, 255, 0.08), transparent 36%),
+          linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.02),
+            rgba(255, 255, 255, 0.01)
+          ),
+          var(--bg-elevated);
+        box-shadow: var(--shadow);
+        padding: 28px;
+      }
+
+      .hero-card::after {
+        content: "";
+        position: absolute;
+        inset: auto -10% -25% auto;
+        width: 320px;
+        height: 320px;
+        background: radial-gradient(
+          circle,
+          rgba(122, 183, 255, 0.18),
+          transparent 62%
+        );
+        pointer-events: none;
+      }
+
+      .topbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: start;
+        gap: 14px;
+      }
+
+      .brand-icon {
+      }
+
+      .brand-mark {
+        width: 48px;
+        height: 48px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        color: #07111c;
+        background: linear-gradient(135deg, var(--cyan), #9bf5ff);
+        box-shadow: 0 12px 36px rgba(79, 209, 255, 0.28);
+      }
+
+      .brand-copy h1 {
+        margin: 0;
+        font-size: clamp(2rem, 3vw, 3.35rem);
+        line-height: 0.98;
+      }
+
+      .brand-copy p {
+        margin: 8px 0 0;
+        max-width: 62ch;
+        color: var(--muted);
+        font-size: 1rem;
+        line-height: 1.65;
+      }
+
+      .quick-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .quick-links a,
+      .cta-row a {
+        text-decoration: none;
+      }
+
+      .pill,
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 42px;
+        padding: 0 16px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.03);
+        transition:
+          transform 160ms ease,
+          border-color 160ms ease,
+          background 160ms ease;
+      }
+
+      .pill:hover,
+      .button:hover {
+        transform: translateY(-1px);
+        border-color: rgba(79, 209, 255, 0.42);
+        background: rgba(79, 209, 255, 0.09);
+      }
+
+      .button.primary {
+        color: #07111c;
+        font-weight: 700;
+        border-color: transparent;
+        background: linear-gradient(135deg, var(--cyan), #a0eeff);
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 26px;
+      }
+
+      .stat {
+        padding: 16px 18px;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 1.1rem;
+      }
+
+      .stat span {
+        display: block;
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 280px minmax(0, 1fr);
+        gap: 24px;
+        padding: 20px 0 48px;
+      }
+
+      .sidebar {
+        position: sticky;
+        top: 20px;
+        align-self: start;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-xl);
+        background: var(--bg-elevated);
+        padding: 18px;
+      }
+
+      .sidebar h2 {
+        margin: 0 0 14px;
+        font-size: 1rem;
+      }
+
+      .sidebar nav {
+        display: grid;
+        gap: 8px;
+      }
+
+      .sidebar nav a {
+        text-decoration: none;
+        color: var(--muted);
+        padding: 10px 12px;
+        border-radius: 12px;
+        transition:
+          background 160ms ease,
+          color 160ms ease;
+      }
+
+      .sidebar nav a:hover {
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .content {
+        display: grid;
+        gap: 22px;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-xl);
+        background: var(--panel);
+        padding: 24px;
+      }
+
+      .panel h2 {
+        margin: 0 0 10px;
+        font-size: 1.55rem;
+      }
+
+      .panel p,
+      .panel li {
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .panel ul,
+      .panel ol {
+        margin: 14px 0 0;
+        padding-left: 20px;
+      }
+
+      .grid {
+        display: grid;
+        gap: 14px;
+      }
+
+      .grid.two {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .card {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: rgba(255, 255, 255, 0.03);
+        padding: 18px;
+      }
+
+      .card h3 {
+        margin: 0 0 8px;
+        font-size: 1rem;
+      }
+
+      .state-row {
+        display: grid;
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      .state {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 16px;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.025);
+      }
+
+      .badge {
+        min-width: 110px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 0.84rem;
+        font-weight: 700;
+        text-align: center;
+        letter-spacing: 0.02em;
+      }
+
+      .green {
+        color: var(--green);
+        border: 1px solid rgba(78, 232, 159, 0.7);
+        background: rgba(78, 232, 159, 0.1);
+      }
+
+      .blue {
+        color: var(--blue);
+        border: 1px solid rgba(122, 183, 255, 0.7);
+        background: rgba(122, 183, 255, 0.1);
+      }
+
+      .yellow {
+        color: var(--amber);
+        border: 1px solid rgba(248, 193, 92, 0.7);
+        background: rgba(248, 193, 92, 0.1);
+      }
+
+      .red {
+        color: var(--red);
+        border: 1px solid rgba(255, 125, 125, 0.7);
+        background: rgba(255, 125, 125, 0.1);
+      }
+
+      code,
+      pre {
+        font-family:
+          "SFMono-Regular", "SF Mono", "Cascadia Code", "JetBrains Mono",
+          Consolas, monospace;
+      }
+
+      pre {
+        overflow-x: auto;
+        padding: 16px;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        background: #08101d;
+        color: #dbe9ff;
+      }
+
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      footer {
+        padding: 0 0 48px;
+        color: var(--muted);
+      }
+      footer p {
+        text-align: center;
+      }
+      footer a {
+        color: white;
+      }
+
+      @media (max-width: 980px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          position: static;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .shell {
+          width: min(100vw - 20px, 1160px);
+        }
+
+        .hero-card,
+        .panel {
+          padding: 20px;
+        }
+
+        .stats,
+        .grid.two {
+          grid-template-columns: 1fr;
+        }
+
+        .state {
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <section class="hero">
+        <div class="hero-card">
+          <div class="topbar">
+            <div class="brand">
+              <img
+                class="brand-icon"
+                src="./app-icon.png"
+                alt="portview-icon"
+                width="90"
+              />
+              <div class="brand-copy">
+                <h1>Portview</h1>
+                <p>
+                  A desktop utility for finding port conflicts fast, seeing what
+                  is actually bound on your machine, and killing the right
+                  process without dropping into terminal commands every time.
+                </p>
+              </div>
+            </div>
+
+            <div class="quick-links">
+              <a class="pill" href="#install">Install</a>
+              <a class="pill" href="#usage">Usage</a>
+              <a class="pill" href="#settings">Settings</a>
+              <a class="pill" href="#troubleshooting">Troubleshooting</a>
+            </div>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <strong>Desktop app</strong>
+              <span>Built with Electron, React, and electron-vite.</span>
+            </div>
+            <div class="stat">
+              <strong>Dark by default</strong>
+              <span>The app now opens with the dark theme selected.</span>
+            </div>
+            <div class="stat">
+              <strong>Fast conflict checks</strong>
+              <span>Inspect ports, pin favorites, and refresh live.</span>
+            </div>
+            <div class="stat">
+              <strong>Open source</strong>
+              <span
+                >This is a fully open source application. Contributions are
+                welcome.
+                <a href="https://github.com/tsikatawill/portview">🔗 Github</a
+                >.</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="layout">
+        <aside class="sidebar">
+          <h2>On this page</h2>
+          <nav>
+            <a href="#overview">Overview</a>
+            <a href="#install">Installation</a>
+            <a href="#usage">How to use Portview</a>
+            <a href="#states">Port states</a>
+            <a href="#settings">Settings and theme</a>
+            <a href="#troubleshooting">Troubleshooting</a>
+          </nav>
+        </aside>
+
+        <main class="content">
+          <section class="panel" id="overview">
+            <h2>Overview</h2>
+            <p>
+              Portview helps developers answer one annoying question quickly:
+              “What is using this port?” Instead of juggling <code>lsof</code>,
+              <code>netstat</code>, or platform-specific kill commands, the app
+              gives you a visual list of active ports, process names, PIDs,
+              ownership details, and connection state.
+            </p>
+            <div class="two grid">
+              <div class="card">
+                <h3>Core features</h3>
+                <ul>
+                  <li>Scan active ports and bound processes</li>
+                  <li>Pin common development ports like 3000 and 5173</li>
+                  <li>Filter by state and search by port, process, or PID</li>
+                  <li>Kill or force-kill problematic processes</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h3>Best for</h3>
+                <ul>
+                  <li>Frontend and backend local development</li>
+                  <li>Recovering from stuck dev servers</li>
+                  <li>Tracking port ownership across multiple projects</li>
+                  <li>
+                    Quick desktop troubleshooting without terminal memorization
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="install">
+            <h2>Installation</h2>
+            <p>
+              In the repository root, install dependencies and run the app in
+              development mode:
+            </p>
+            <pre><code>npm install
+npm run dev</code></pre>
+            <p>
+              To build the application bundles without starting the desktop app:
+            </p>
+            <pre><code>npm run build</code></pre>
+            <p>For project verification during development:</p>
+            <pre><code>npm run typecheck</code></pre>
+          </section>
+
+          <section class="panel" id="usage">
+            <h2>How to use Portview</h2>
+            <ol>
+              <li>
+                Launch the app and wait for the initial port scan to complete.
+              </li>
+              <li>
+                Use the search bar to find a port, PID, or process by name.
+              </li>
+              <li>Pin ports you care about so they stay easy to monitor.</li>
+              <li>Use the refresh controls for manual or automatic rescans.</li>
+              <li>Kill a process when you are sure it is safe to terminate.</li>
+            </ol>
+            <div class="cta-row">
+              <a class="button primary" href="#states">Understand the states</a>
+              <a class="button" href="#settings">Settings guidance</a>
+            </div>
+          </section>
+
+          <section class="panel" id="states">
+            <h2>Port states</h2>
+            <p>
+              Portview uses clearer labels than raw TCP state names so you can
+              tell what matters at a glance.
+            </p>
+            <div class="state-row">
+              <div class="state">
+                <span class="badge green">In Use</span>
+                <div>
+                  <p>
+                    The port is actively bound and waiting for incoming
+                    connections. This is the state that usually blocks a dev
+                    server from starting on the same port.
+                  </p>
+                </div>
+              </div>
+              <div class="state">
+                <span class="badge blue">Connected</span>
+                <div>
+                  <p>
+                    There is an active connection on this socket right now.
+                    Useful for diagnostics, though not always the thing causing
+                    a startup conflict.
+                  </p>
+                </div>
+              </div>
+              <div class="state">
+                <span class="badge yellow">Close Wait</span>
+                <div>
+                  <p>
+                    The remote side has disconnected, but the local process has
+                    not fully finished cleaning up the connection yet.
+                  </p>
+                </div>
+              </div>
+              <div class="state">
+                <span class="badge red">Closed</span>
+                <div>
+                  <p>
+                    The socket is no longer open. This is generally less
+                    important for conflict resolution, but still useful context
+                    when investigating network behavior.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="settings">
+            <h2>Settings and theme</h2>
+            <p>
+              The navbar now includes a settings icon for quick access to the
+              app preferences screen. From there, users can:
+            </p>
+            <ul>
+              <li>
+                Switch between <strong>Dark</strong>, <strong>Light</strong>,
+                and <strong>System</strong> themes
+              </li>
+              <li>Toggle confirmation before killing a process</li>
+              <li>Enable or disable auto refresh</li>
+              <li>Adjust the live scan interval</li>
+            </ul>
+            <p>
+              Dark mode is now the default for new users. Existing users will
+              keep whichever theme has already been persisted in their local app
+              settings unless they change it manually.
+            </p>
+          </section>
+
+          <section class="panel" id="troubleshooting">
+            <h2>Troubleshooting</h2>
+            <div class="two grid">
+              <div class="card">
+                <h3>The port list looks empty</h3>
+                <p>
+                  Try a manual refresh, clear active filters, and verify the
+                  target service is actually running locally.
+                </p>
+              </div>
+              <div class="card">
+                <h3>A port will not free up</h3>
+                <p>
+                  Check whether the process immediately restarts after being
+                  killed. Watchers, background daemons, or another parent
+                  process may be bringing it back.
+                </p>
+              </div>
+              <div class="card">
+                <h3>The wrong theme is showing</h3>
+                <p>
+                  Open the settings page from the navbar and explicitly set the
+                  theme to Dark, Light, or System to override the default.
+                </p>
+              </div>
+            </div>
+          </section>
+        </main>
+      </section>
+
+      <footer>
+        <p>Built by <a href="https://x.com/dev_willman">William Tsikata</a></p>
+      </footer>
+    </div>
+  </body>
+</html>
