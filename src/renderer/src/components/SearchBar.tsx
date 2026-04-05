@@ -29,7 +29,7 @@ export function SearchBar() {
       <div className="relative flex-1">
         <Search className="text-muted-foreground absolute top-2.5 left-2.5 h-4 w-4" />
         <Input
-          placeholder="Search by port, process name, or PID..."
+          placeholder="Search by port, process, description, or PID..."
           className="pl-9"
           value={state.searchQuery}
           onChange={(e) =>

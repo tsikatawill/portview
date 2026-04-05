@@ -1,5 +1,6 @@
 import { PinOff } from "lucide-react";
 import { useMemo } from "react";
+import { getPortDescription } from "../../../shared/port-descriptions";
 import { useApp } from "../context/AppContext";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
@@ -34,9 +35,17 @@ export function PinnedPorts() {
         >
           <span className="font-mono font-medium">{port}</span>
           {inUse ? (
-            <Badge variant="destructive" className="text-xs">
-              {processName} ({pid})
-            </Badge>
+            <>
+              <Badge variant="destructive" className="text-xs">
+                {processName} ({pid})
+              </Badge>
+              {(() => {
+                const desc = getPortDescription(port, processName ?? "");
+                return desc ? (
+                  <span className="text-muted-foreground text-xs">{desc}</span>
+                ) : null;
+              })()}
+            </>
           ) : (
             <Badge variant="secondary" className="text-xs">
               available

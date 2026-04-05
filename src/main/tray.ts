@@ -3,6 +3,7 @@ import electron, {
   type Tray as ElectronTray,
 } from "electron";
 import { join } from "path";
+import { getPortDescription } from "../shared/port-descriptions";
 import { PortEntry } from "../shared/types";
 import { killProcess } from "./kill";
 import { scanPorts } from "./scanner";
@@ -49,7 +50,12 @@ function updateTrayMenu(getMainWindow: () => BrowserWindow | null) {
     const entry = latestEntries.find((e) => e.port === port);
     if (entry) {
       return {
-        label: `⚠ :${port} — ${entry.processName} (PID ${entry.pid})`,
+        label: (() => {
+          const desc = getPortDescription(port, entry.processName);
+          return desc
+            ? `⚠ :${port} — ${desc} (PID ${entry.pid})`
+            : `⚠ :${port} — ${entry.processName} (PID ${entry.pid})`;
+        })(),
         submenu: [
           {
             label: "Kill",

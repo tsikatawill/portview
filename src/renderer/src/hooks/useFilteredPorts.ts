@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { getPortDescription } from "../../../shared/port-descriptions";
 import { PortEntry } from "../../../shared/types";
 
 export function useFilteredPorts(
@@ -17,7 +18,8 @@ export function useFilteredPorts(
         (entry) =>
           String(entry.port).includes(q) ||
           entry.processName.toLowerCase().includes(q) ||
-          String(entry.pid).includes(q),
+          String(entry.pid).includes(q) ||
+          getPortDescription(entry.port, entry.processName).toLowerCase().includes(q),
       );
     }
 
