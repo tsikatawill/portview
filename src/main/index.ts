@@ -14,7 +14,7 @@ import { createTray, updateTrayEntries } from "./tray";
 const { app, BrowserWindow, ipcMain, nativeImage, shell } = electron;
 
 const APP_NAME = "Portview";
-const APP_ICON_PATH = join(__dirname, "../../resources/app-icon.png");
+const APP_ICON_PATH = join(process.resourcesPath, "app-icon.png");
 
 function getAppIcon() {
   const icon = nativeImage.createFromPath(APP_ICON_PATH);

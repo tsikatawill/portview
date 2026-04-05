@@ -18,7 +18,7 @@ export function createTray(
 ): ElectronTray {
   // Use a simple template icon for the tray
   const icon = nativeImage.createFromPath(
-    join(__dirname, "../../resources/tray-icon.png"),
+    join(process.resourcesPath, "tray-icon.png"),
   );
   const resized = icon.isEmpty()
     ? nativeImage.createEmpty()

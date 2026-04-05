@@ -54,19 +54,24 @@
     "files": [
       "out/**/*"
     ],
+    "extraResources": [
+      { "from": "resources/tray-icon.png", "to": "tray-icon.png" },
+      { "from": "resources/app-icon.png", "to": "app-icon.png" }
+    ],
     "mac": {
-      "icon": "resources/app-icon.png",
+      "icon": "resources/app-icon.icns",
       "target": [
         {
           "target": "dmg",
           "arch": [
-            "universal"
+            "arm64",
+            "x64"
           ]
         }
       ]
     },
     "win": {
-      "icon": "resources/app-icon.png",
+      "icon": "resources/app-icon.ico",
       "target": [
         {
           "target": "nsis",
