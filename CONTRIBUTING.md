@@ -21,9 +21,10 @@ bash scripts/install-hooks.sh   # installs the pre-push test hook
 1. Fork the repo and create a branch from `main`.
 2. Branch naming: `feat/<topic>`, `fix/<topic>`, or `chore/<topic>`.
 3. Make your changes.
-4. Run the tests: `npm test`
-5. Format your code: `npm run format`
-6. Open a pull request against `main`.
+4. Format your code: `npm run format`
+5. Typecheck: `npm run typecheck`
+6. Run the tests: `npm test`
+7. Open a pull request against `main`.
 
 ## Tests are required for new features
 
