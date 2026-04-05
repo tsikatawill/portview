@@ -16,13 +16,32 @@ A desktop app for developers to see which processes are using local ports and ki
 
 ## Download
 
-Grab the latest installer from [Releases](https://github.com/tsikatawill/portview/releases):
+Grab the latest installer from the [Releases page](https://github.com/tsikatawill/portview/releases):
 
-- **macOS** — `Portview-<version>-universal.dmg`
-- **Windows** — `Portview-Setup-<version>.exe`
+- **macOS** — download the `.dmg` file (e.g. `Portview-<version>-universal.dmg`)
+- **Windows** — download the `.exe` installer (e.g. `Portview-Setup-<version>.exe`)
 
-> macOS: right-click → Open to bypass Gatekeeper on first launch.  
-> Windows: click "More info → Run anyway" to bypass SmartScreen.
+### macOS: Bypassing Gatekeeper
+
+Portview is not signed with an Apple Developer certificate, so macOS will block it on first launch. To open it:
+
+1. Open the `.dmg` and drag **Portview.app** into your Applications folder.
+2. Try to open the app — you'll see a warning saying it can't be opened.
+3. Go to **System Settings → Privacy & Security**.
+4. Scroll to the **Security** section — you'll see *"Portview.app" was blocked to protect your Mac*.
+5. Click **Open Anyway**, then confirm in the dialog that follows.
+
+The app will launch normally from then on.
+
+Alternatively, remove the quarantine flag from the terminal:
+
+```sh
+xattr -cr /Applications/Portview.app
+```
+
+### Windows: Bypassing SmartScreen
+
+On first launch, Windows may show a SmartScreen warning. Click **More info**, then **Run anyway**.
 
 ## Building from source
 

@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
     <title>Portview Documentation</title>
     <meta
       name="description"
@@ -528,17 +529,75 @@
           <section class="panel" id="install">
             <h2>Installation</h2>
             <p>
-              In the repository root, install dependencies and run the app in
-              development mode:
+              Download the latest installer for your platform from the
+              <a href="https://github.com/tsikatawill/portview/releases"
+                >Releases page</a
+              >:
+            </p>
+            <ul>
+              <li>
+                <strong>Apple Silicon Mac</strong> &mdash; download the
+                <code>arm64.dmg</code> file
+              </li>
+              <li>
+                <strong>Intel Mac</strong> &mdash; download the
+                <code>.dmg</code> file
+              </li>
+              <li>
+                <strong>Windows</strong> &mdash; download the
+                <code>.exe</code> installer
+              </li>
+            </ul>
+
+            <h3>macOS: Bypassing Gatekeeper</h3>
+            <p>
+              Portview is not signed with an Apple Developer certificate, so
+              macOS will block it on first launch. To open it:
+            </p>
+            <ol>
+              <li>
+                Open the <code>.dmg</code> and drag
+                <strong>Portview.app</strong> into your Applications folder.
+              </li>
+              <li>
+                Try to open the app &mdash; you will see a warning saying it
+                cannot be opened.
+              </li>
+              <li>
+                Go to
+                <strong>System Settings &rarr; Privacy &amp; Security</strong>.
+              </li>
+              <li>
+                Scroll to the <strong>Security</strong> section &mdash; you will
+                see
+                <em
+                  >&ldquo;Portview.app&rdquo; was blocked to protect your
+                  Mac</em
+                >.
+              </li>
+              <li>
+                Click <strong>Open Anyway</strong>, then confirm in the dialog
+                that follows.
+              </li>
+            </ol>
+            <p>The app will launch normally from then on.</p>
+            <p>Alternatively, remove the quarantine flag from the terminal:</p>
+            <pre><code>xattr -cr /Applications/Portview.app</code></pre>
+
+            <h3>Windows: Bypassing SmartScreen</h3>
+            <p>
+              On first launch, Windows may show a SmartScreen warning. Click
+              <strong>More info</strong>, then <strong>Run anyway</strong>.
+            </p>
+
+            <h3>Building from source</h3>
+            <p>
+              If you prefer to build from source, clone the repository and run:
             </p>
             <pre><code>npm install
 npm run dev</code></pre>
-            <p>
-              To build the application bundles without starting the desktop app:
-            </p>
-            <pre><code>npm run build</code></pre>
-            <p>For project verification during development:</p>
-            <pre><code>npm run typecheck</code></pre>
+            <p>To package installers locally:</p>
+            <pre><code>npm run dist</code></pre>
           </section>
 
           <section class="panel" id="usage">
@@ -662,7 +721,12 @@ npm run dev</code></pre>
       </section>
 
       <footer>
-        <p>Built by <a href="https://x.com/dev_willman">William Tsikata</a></p>
+        <p>
+          Built by
+          <a target="_blank" href="https://x.com/dev_willman"
+            >William Tsikata</a
+          >
+        </p>
       </footer>
     </div>
   </body>
