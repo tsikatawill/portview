@@ -15,7 +15,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "format": "prettier --write .",
-    "dist": "electron-vite build && electron-builder"
+    "dist": "electron-vite build && electron-builder --publish never"
   },
   "repository": {
     "type": "git",
