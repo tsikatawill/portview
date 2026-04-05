@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-HOOK=".git/hooks/pre-push"
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+HOOK="$REPO_ROOT/.git/hooks/pre-push"
 
 cat > "$HOOK" << 'EOF'
 #!/usr/bin/env bash
