@@ -34,6 +34,11 @@
         box-sizing: border-box;
       }
 
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+
       html {
         scroll-behavior: smooth;
       }
@@ -267,6 +272,8 @@
         border-radius: var(--radius-xl);
         background: var(--panel);
         padding: 24px;
+        overflow-wrap: break-word;
+        min-width: 0;
       }
 
       .panel h2 {
@@ -365,13 +372,24 @@
           Consolas, monospace;
       }
 
+      code {
+        word-break: break-word;
+        overflow-wrap: break-word;
+      }
+
       pre {
         overflow-x: auto;
+        max-width: 100%;
         padding: 16px;
         border-radius: 16px;
         border: 1px solid var(--line);
         background: #08101d;
         color: #dbe9ff;
+      }
+
+      pre code {
+        word-break: normal;
+        overflow-wrap: normal;
       }
 
       .cta-row {
@@ -400,6 +418,10 @@
         .sidebar {
           position: static;
         }
+
+        .stats {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
       }
 
       @media (max-width: 720px) {
@@ -419,6 +441,64 @@
 
         .state {
           align-items: flex-start;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .shell {
+          width: calc(100vw - 16px);
+        }
+
+        .hero-card,
+        .panel {
+          padding: 16px;
+          border-radius: var(--radius-lg);
+        }
+
+        .hero {
+          padding: 16px 0 12px;
+        }
+
+        .topbar {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .brand {
+          gap: 10px;
+        }
+
+        .brand-icon {
+          width: 64px !important;
+          height: auto;
+        }
+
+        .quick-links {
+          width: 100%;
+        }
+
+        .quick-links a,
+        .cta-row a {
+          flex: 1 1 auto;
+          text-align: center;
+        }
+
+        .badge {
+          min-width: 88px;
+          font-size: 0.78rem;
+        }
+
+        .panel h2 {
+          font-size: 1.3rem;
+        }
+
+        .layout {
+          gap: 16px;
+          padding: 12px 0 32px;
+        }
+
+        .content {
+          gap: 16px;
         }
       }
     </style>
